@@ -5,7 +5,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import copy
 import TrajectorySolver as ts
 import scipy.optimize as opt
-
+import matrixT
 
 # Initial foot position
 oldLeftFootPose = np.zeros((4, 4))
