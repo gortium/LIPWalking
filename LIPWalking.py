@@ -5,7 +5,8 @@ from mpl_toolkits.mplot3d import Axes3D
 import copy
 import TrajectorySolver as ts
 import scipy.optimize as opt
-import matrixT
+import ForwardKinematic as fk
+import InverseKinematic as ik
 
 # Initial foot position
 oldLeftFootPose = np.zeros((4, 4))
@@ -46,13 +47,14 @@ def ComputeComTraj(tf1, tf2, posS, posV, posF, velS, velF):
     posTrajPoly3v1 = np.poly1d(sol3v[:4])
     posTrajPoly3v2 = np.poly1d(sol3v[4:8])
 
-    return (posTrajPoly3v1, posTrajPoly3v2)
+    return posTrajPoly3v1, posTrajPoly3v2
 
 # IK for supporting leg
 
 # Stepping foot trajectory
 
 # IK for Stepping foot
+
 
 # Draw graph
 def draw():
@@ -104,6 +106,8 @@ def main():
         ComputeComTraj()
 
         generateNextFootPos()
+
+        #ComputeFootTraj()
 
         draw()
 
