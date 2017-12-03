@@ -6,12 +6,8 @@ import copy
 import TrajectorySolver as ts
 import scipy.optimize as opt
 
-# Transpose matrix lib ???
-T = np.zeros((4, 4))
 
-# Foot position
-
-
+# Initial foot position
 oldLeftFootPose = np.zeros((4, 4))
 oldLeftFootPose[0, 3] = -10  # x = -10
 oldLeftFootPose[1, 3] = -10  # y = -10
@@ -30,18 +26,27 @@ actualRightFootPose = copy.deepcopy(oldRightFootPose)
 nextRightFootPose = copy.deepcopy(oldRightFootPose)
 nextRightFootPose[0, 3] += 40  # x += 20
 
-#def generateNextFootPos():
+
+def generateNextFootPos():
+    oldLeftFootPose = nextLeftFootPose
+    oldRightFootPose = nextRightFootPose
+    nextLeftFootPose[0, 3] += 40  # x += 20
+    nextRightFootPose[0, 3] += 40  # x += 20
 
 # CoM trajectory
-tf1 = tf2 = 1
-posS = 0
-posV = 8
-posF = 0
-velS = 1
-velF = 1
-sol3v = opt.fsolve(ts.trajPoly3Via, (1, 1, 1, 1, 1, 1, 1, 1), (tf1, tf2, posS, posV, posF, velS, velF))
-posTrajPoly3v1 = np.poly1d(sol3v[:4])
-posTrajPoly3v2 = np.poly1d(sol3v[4:8])
+def ComputeComTraj(tf1, tf2, posS, posV, posF, velS, velF):
+    _tf1 = tf2
+    _tf2 = tf2
+    _posS = posS
+    _posV = posV
+    _posF = posF
+    _velS = velS
+    _velF = velF
+    sol3v = opt.fsolve(ts.trajPoly3Via, np.array([1, 1, 1, 1, 1, 1, 1, 1]), (_tf1, _tf2, _posS, _posV, _posF, _velS, _velF))
+    posTrajPoly3v1 = np.poly1d(sol3v[:4])
+    posTrajPoly3v2 = np.poly1d(sol3v[4:8])
+
+    return (posTrajPoly3v1, posTrajPoly3v2)
 
 # IK for supporting leg
 
@@ -92,4 +97,16 @@ def draw():
 
     fig.show()
 
-draw()
+
+def main():
+    while(True):
+
+        ComputeComTraj()
+
+        generateNextFootPos()
+
+        draw()
+
+
+if __name__ == "__main__":
+    main()

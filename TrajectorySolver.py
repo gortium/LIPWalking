@@ -120,7 +120,7 @@ def drawDevoir2():
     velFC = 0
 
     # POSITION
-    sol3v = opt.fsolve(trajPoly3Via, (1, 1, 1, 1, 1, 1, 1, 1), (tf1C, tf2C, tetaSC, tetaFC, velSC, velFC))
+    sol3v = opt.fsolve(trajPoly3Via, (1, 1, 1, 1, 1, 1, 1, 1), (tf1C, tf2C, tetaSC, tetaVC, tetaFC, velSC, velFC))
     posTrajPoly3v1 = np.poly1d(sol3v[:4])
     posTrajPoly3v2 = np.poly1d(sol3v[4:8])
     showResult("POSITION", "Polynomial 1:", "Polynomial 2:", tf1C, tf2C, posTrajPoly3v1, posTrajPoly3v2)
@@ -143,3 +143,9 @@ def drawDevoir2():
     jerkTrajPoly3v2 = accTrajPoly3v2.deriv()
     showResult("JERK", "Polynomial 1:", "Polynomial 2:", tf1C, tf2C, jerkTrajPoly3v1, jerkTrajPoly3v2)
     saveResult('c_jerk.png', tf1C, tf2C, jerkTrajPoly3v1, jerkTrajPoly3v2)
+
+def main():
+    drawDevoir2()
+
+if __name__ == "__main__":
+    main()
